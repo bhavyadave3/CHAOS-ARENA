@@ -1,0 +1,14 @@
+﻿node_modules/
+**/node_modules/
+dist/
+**/dist/
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.env
+.env.*
+!.env.example
+backend/instance/*.db
+backend/instance/*.sqlite
+backend/instance/*.sqlite3

@@ -1,0 +1,12 @@
+{
+  "name": "chaos-arena",
+  "private": true,
+  "scripts": {
+    "dev:all": "concurrently -k -n BACKEND,FRONTEND \"npm run dev:backend\" \"npm run dev:frontend\"",
+    "dev:backend": "cd backend && python app.py",
+    "dev:frontend": "npm --prefix frontend run dev"
+  },
+  "devDependencies": {
+    "concurrently": "^10.0.6"
+  }
+}
