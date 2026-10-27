@@ -8,29 +8,17 @@ from database import get_db, init_db
 
 app = Flask(__name__)
 
-# Local frontend addresses for development.
+# Frontend origins allowed to call the backend.
 FRONTEND_ORIGINS = {
     "http://localhost:5173",
     "http://127.0.0.1:5173",
+    "https://chaos-arena-frontend.onrender.com",
 }
 
-# Add the deployed frontend URL from Render environment variables.
+# Also allow the frontend URL configured in Render.
 frontend_url = os.environ.get("FRONTEND_URL", "").strip().rstrip("/")
-
 if frontend_url:
     FRONTEND_ORIGINS.add(frontend_url)
-
-VALID_GAMES = {
-    "Chaos Switch",
-    "Chaos Floor",
-    "Chaos Freeze",
-    "Chaos Mind",
-    "Chaos Stack",
-    "Chaos Target",
-    "Chaos Colors",
-    "Chaos Gravity",
-    "Chaos Mode",
-}
 
 
 @app.after_request
@@ -48,6 +36,19 @@ def add_cors_headers(response):
         )
 
     return response
+
+
+VALID_GAMES = {
+    "Chaos Switch",
+    "Chaos Floor",
+    "Chaos Freeze",
+    "Chaos Mind",
+    "Chaos Stack",
+    "Chaos Target",
+    "Chaos Colors",
+    "Chaos Gravity",
+    "Chaos Mode",
+}
 
 
 @app.get("/")
