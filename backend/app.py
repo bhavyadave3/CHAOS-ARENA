@@ -1,4 +1,5 @@
 
+import os
 import sqlite3
 
 from flask import Flask, jsonify, request
@@ -7,10 +8,17 @@ from database import get_db, init_db
 
 app = Flask(__name__)
 
+# Local frontend addresses for development.
 FRONTEND_ORIGINS = {
     "http://localhost:5173",
     "http://127.0.0.1:5173",
 }
+
+# Add the deployed frontend URL from Render environment variables.
+frontend_url = os.environ.get("FRONTEND_URL", "").strip().rstrip("/")
+
+if frontend_url:
+    FRONTEND_ORIGINS.add(frontend_url)
 
 VALID_GAMES = {
     "Chaos Switch",
@@ -101,7 +109,7 @@ def save_score():
             "message": "Please provide a valid CHAOS ARENA game name.",
         }), 400
 
-    # bool is a subclass of int in Python, so reject it explicitly.
+    # Reject booleans because bool is a subclass of int in Python.
     if type(score) is not int or score < 0:
         return jsonify({
             "success": False,
@@ -189,7 +197,7 @@ def get_leaderboard():
     if not 1 <= limit <= 100:
         return jsonify({
             "success": False,
-            "message": "Limit must be between 1 and 100.",
+            "message": "Limit must be a number between 1 and 100.",
         }), 400
 
     connection = None
