@@ -1,10 +1,11 @@
 
-export const API_BASE_URL =
-  import.meta.env.VITE_API_URL || 'http://127.0.0.1:5000';
-
 /**
  * Send a request to the CHAOS ARENA backend.
  */
+
+export const API_BASE_URL =
+  import.meta.env.VITE_API_URL || 'http://127.0.0.1:5000';
+
 export async function apiRequest(path, options = {}) {
   const endpoint = path.startsWith('/') ? path : `/${path}`;
   const url = `${API_BASE_URL}${endpoint}`;
@@ -35,6 +36,7 @@ export async function apiRequest(path, options = {}) {
   }
 
   const contentType = response.headers.get('content-type') || '';
+
   const data = contentType.includes('application/json')
     ? await response.json()
     : await response.text();
@@ -62,13 +64,6 @@ export async function checkBackendHealth() {
 
 /**
  * Save a completed game's score to SQLite.
- *
- * Example:
- * saveGameScore({
- *   gameName: 'Chaos Switch',
- *   score: 250,
- *   durationSeconds: 30,
- * });
  */
 export async function saveGameScore({
   gameName,
@@ -95,8 +90,7 @@ export async function saveGameScore({
 
 /**
  * Retrieve the leaderboard.
- *
- * Pass gameName to filter by game, or omit it for the overall leaderboard.
+ * Optionally filter by game name.
  */
 export async function getLeaderboard({
   gameName,
@@ -116,5 +110,3 @@ export async function getLeaderboard({
 
   return apiRequest(`/api/leaderboard?${params.toString()}`);
 }
-
-export { API_BASE_URL };
